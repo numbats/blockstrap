@@ -1,7 +1,7 @@
 #' Sample complete groups from a data frame
 #'
 #' @param .data A data frame, possibly grouped
-#' @param n Number of groups to sample
+#' @param n Number of samples to draw
 #' @param replace Should sampling be done with replacement?
 #' @param weight_by Optional expression to weight groups by (unquoted name)
 #' @param ... Additional arguments passed to methods

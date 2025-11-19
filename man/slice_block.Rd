@@ -11,7 +11,7 @@ slice_block(.data, ...)
 
 \item{...}{Additional arguments passed to methods}
 
-\item{n}{Number of groups to sample}
+\item{n}{Number of samples to draw}
 
 \item{replace}{Should sampling be done with replacement?}
 
