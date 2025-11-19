@@ -2,4 +2,5 @@
 
 ### All vignettes
 
-- [egworkflow](http://www.michaellydeamore.com/blockstrap/articles/egworkflow.md):
+- [Example
+  Workflow](http://www.michaellydeamore.com/blockstrap/articles/egworkflow.md):
