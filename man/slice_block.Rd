@@ -2,24 +2,39 @@
 % Please edit documentation in R/slice_sample.R
 \name{slice_block}
 \alias{slice_block}
+\alias{slice_block.data.frame}
+\alias{slice_block.grouped_df}
 \title{Sample complete groups from a data frame}
 \usage{
 slice_block(.data, ...)
+
+\method{slice_block}{data.frame}(.data, ...)
+
+\method{slice_block}{grouped_df}(.data, n = 1, replace = FALSE, weight_by = NULL, ...)
 }
 \arguments{
-\item{.data}{A data frame, possibly grouped}
+\item{.data}{A grouped data frame, generated using \verb{[dplyr::group_by](dplyr::group_by)}}
 
 \item{...}{Additional arguments passed to methods}
 
-\item{n}{Number of groups to sample}
+\item{n}{Number of samples to draw}
 
 \item{replace}{Should sampling be done with replacement?}
 
-\item{weight_by}{Optional column to weight groups by (unquoted name)}
+\item{weight_by}{Optional expression to weight groups by (unquoted name)}
 }
 \value{
 A data frame with sampled complete groups
 }
 \description{
-Sample complete groups from a data frame
+Samples complete groups from a grouped data frame, including
+all of each group as part of the sample. Can be considered a form of
+grouped bootstrap sampling.
+}
+\examples{
+ToothGrowth |>
+   dplyr::group_by(supp, dose) |>
+   slice_block(n = 2)
+
+
 }

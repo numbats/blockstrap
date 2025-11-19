@@ -1,3 +1,8 @@
 ^flockstrapr\.Rproj$
 ^\.Rproj\.user$
 ^LICENSE\.md$
+.comments
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^\.github$
