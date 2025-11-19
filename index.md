@@ -1,6 +1,4 @@
-blockstrap ![Status:
-experimental](https://img.shields.io/badge/status-experimental-orange)
-================
+# blockstrap
 
 Sample complete groups (“blocks”) from a grouped data frame. This
 package implements a simple *block bootstrap* style sampler: instead of
