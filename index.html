@@ -44,8 +44,134 @@
   </div>
 </nav><div class="container template-home">
 <div class="row">
-  <main id="main" class="col-md-9">
-Sample dataframes by group, in the form of a 'block bootstrap'. Entire groups are returned allowing for a single 'observation' to span multiple rows of the dataframe.
+  <main id="main" class="col-md-9"><div class="section level1">
+<div class="page-header"><h1 id="blockstrap">blockstrap<a class="anchor" aria-label="anchor" href="#blockstrap"></a>
+</h1></div>
+<!-- README.Rmd is generated from this file. Run devtools::build_readme() to knit. -->
+</div>
+<div class="section level1">
+<h1 id="blockstrap-">blockstrap <img src="https://img.shields.io/badge/status-experimental-orange" alt="Status: experimental"><a class="anchor" aria-label="anchor" href="#blockstrap-"></a>
+</h1>
+<p>Sample complete groups (“blocks”) from a grouped data frame. This package implements a simple <em>block bootstrap</em> style sampler: instead of sampling individual rows, you sample entire groups preserving the intra-group structure.</p>
+<blockquote>
+<p>Assumption: The package name in <code>DESCRIPTION</code> is <code>blockstrap</code> (repository folder is <code>flockstrapr</code>). This README uses the <code>blockstrap</code> name; adjust if the package is renamed.</p>
+</blockquote>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"MikeLydeamore/flockstrapr"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="motivation">Motivation<a class="anchor" aria-label="anchor" href="#motivation"></a>
+</h2>
+<p>When observations belonging to the same experimental unit are spread across multiple rows (e.g. multiple measurements per subject, dose combinations, time series segments), ordinary row-wise sampling breaks these units apart. A block sampler keeps units intact by sampling at the group level.</p>
+</div>
+<div class="section level2">
+<h2 id="core-function">Core function<a class="anchor" aria-label="anchor" href="#core-function"></a>
+</h2>
+<p><code><a href="reference/slice_block.html">slice_block()</a></code> works on a <em>grouped</em> data frame. If you call it on an ungrouped data frame, it throws a helpful error.</p>
+<p>Key arguments:</p>
+<ul>
+<li>
+<code>n</code>: number of groups (blocks) to sample.</li>
+<li>
+<code>replace</code>: sample with replacement? Needed when <code>n</code> exceeds number of groups.</li>
+<li>
+<code>weight_by</code>: optional expression (unquoted) evaluated per-group to weight sampling probabilities.</li>
+<li>
+<code>...</code>: passed to base <code><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample()</a></code> allowing e.g. <code><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed()</a></code> beforehand or other sampling tweaks.</li>
+</ul>
+</div>
+<div class="section level2">
+<h2 id="basic-example">Basic example<a class="anchor" aria-label="anchor" href="#basic-example"></a>
+</h2>
+<p>We use the built-in <code>ToothGrowth</code> dataset and treat each supplement-dose combination as a block.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://www.michaellydeamore.com/blockstrap/">blockstrap</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">ToothGrowth</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">supp</span>, <span class="va">dose</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="reference/slice_block.html">slice_block</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="do">## # A tibble: 20 × 3</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="do">## # Groups:   supp, dose [2]</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="do">##      len supp   dose</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="do">##    &lt;dbl&gt; &lt;fct&gt; &lt;dbl&gt;</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="do">##  1  15.2 OJ      0.5</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="do">##  2  21.5 OJ      0.5</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="do">##  3  17.6 OJ      0.5</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="do">##  4   9.7 OJ      0.5</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="do">##  5  14.5 OJ      0.5</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="do">##  6  10   OJ      0.5</span></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="do">##  7   8.2 OJ      0.5</span></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="do">##  8   9.4 OJ      0.5</span></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="do">##  9  16.5 OJ      0.5</span></span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="do">## 10   9.7 OJ      0.5</span></span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="do">## 11   4.2 VC      0.5</span></span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a><span class="do">## 12  11.5 VC      0.5</span></span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="do">## 13   7.3 VC      0.5</span></span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a><span class="do">## 14   5.8 VC      0.5</span></span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="do">## 15   6.4 VC      0.5</span></span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a><span class="do">## 16  10   VC      0.5</span></span>
+<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a><span class="do">## 17  11.2 VC      0.5</span></span>
+<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a><span class="do">## 18  11.2 VC      0.5</span></span>
+<span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a><span class="do">## 19   5.2 VC      0.5</span></span>
+<span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a><span class="do">## 20   7   VC      0.5</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="sampling-with-replacement">Sampling with replacement<a class="anchor" aria-label="anchor" href="#sampling-with-replacement"></a>
+</h2>
+<p>If you want to sample more groups than exist, or allow repeats:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ToothGrowth</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">supp</span>, <span class="va">dose</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="reference/slice_block.html">slice_block</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">10</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">supp</span>, <span class="va">dose</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="do">## # A tibble: 5 × 3</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="do">## # Groups:   supp, dose [5]</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="do">##   supp   dose     n</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="do">##   &lt;fct&gt; &lt;dbl&gt; &lt;int&gt;</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="do">## 1 OJ      0.5    20</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="do">## 2 OJ      1      20</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="do">## 3 OJ      2      30</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="do">## 4 VC      1      20</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="do">## 5 VC      2      10</span></span></code></pre></div>
+<p>Repeated blocks will appear multiple times (row counts summed accordingly).</p>
+</div>
+<div class="section level2">
+<h2 id="weighted-sampling">Weighted sampling<a class="anchor" aria-label="anchor" href="#weighted-sampling"></a>
+</h2>
+<p>Weight blocks by a statistic, e.g. mean tooth length, to favor larger mean response groups:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
+<span><span class="va">weighted</span> <span class="op">&lt;-</span> <span class="va">ToothGrowth</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">supp</span>, <span class="va">dose</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="reference/slice_block.html">slice_block</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">3</span>, weight_by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">len</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>You can verify weighting bias by repeating and tallying frequencies:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">99</span><span class="op">)</span></span>
+<span><span class="va">rep_draws</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">replicate</a></span><span class="op">(</span><span class="fl">500</span>, <span class="op">{</span></span>
+<span>  <span class="va">ToothGrowth</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">supp</span>, <span class="va">dose</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="reference/slice_block.html">slice_block</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">3</span>, weight_by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">len</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html" class="external-link">distinct</a></span><span class="op">(</span><span class="va">supp</span>, <span class="va">dose</span><span class="op">)</span></span>
+<span><span class="op">}</span>, simplify <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">freqs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">rep_draws</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">supp</span>, <span class="va">dose</span>, name <span class="op">=</span> <span class="st">"times"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">times</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">freqs</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="do">## # A tibble: 6 × 3</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="do">## # Groups:   supp, dose [6]</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="do">##   supp   dose times</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="do">##   &lt;fct&gt; &lt;dbl&gt; &lt;int&gt;</span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="do">## 1 OJ      2     334</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="do">## 2 VC      2     326</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="do">## 3 OJ      1     292</span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="do">## 4 VC      1     224</span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="do">## 5 OJ      0.5   205</span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="do">## 6 VC      0.5   119</span></span></code></pre></div>
+</div>
+</div>
+
   </main><aside class="col-md-3"><div class="license">
 <h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
