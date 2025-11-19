@@ -15,7 +15,7 @@ slice_block(.data, ...)
 
 \item{replace}{Should sampling be done with replacement?}
 
-\item{weight_by}{Optional column to weight groups by (unquoted name)}
+\item{weight_by}{Optional expression to weight groups by (unquoted name)}
 }
 \value{
 A data frame with sampled complete groups
