@@ -1,5 +1,5 @@
 ---
-title: "egworkflow"
+title: "Example Workflow"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{egworkflow}
@@ -12,13 +12,11 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-
-devtools::load_all()
-
 ```
 
 ```{r message=FALSE}
-library(dplyr) 
+library(dplyr)
+library(blockstrap)
 ```
 # Introduction to Blockstrap 
 Blockstrap is an R package developed for resampling data structures that naturally come in blocks. A common example is the line-listed hospital admission data, where each subject may appear in multiple rows. These rows can be grouped into meaningful units such as a sequence of visits by the same subject that occur close together. We refer to each such grouping as a block.
