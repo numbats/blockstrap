@@ -1,5 +1,4 @@
 blockstrap
-<img src='https://img.shields.io/badge/status-experimental-orange' alt='Status: experimental'/>
 ================
 
 <!-- README.Rmd is generated from this file. Run devtools::build_readme() to knit. -->

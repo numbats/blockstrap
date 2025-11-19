@@ -1,5 +1,5 @@
 ---
-title: "blockstrap <img src='https://img.shields.io/badge/status-experimental-orange' alt='Status: experimental'/>"
+title: "blockstrap"
 output: github_document
 ---
 
