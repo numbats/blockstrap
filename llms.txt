@@ -1,21 +1,17 @@
-# blockstrap
-
-# blockstrap ![Status: experimental](https://img.shields.io/badge/status-experimental-orange)
+blockstrap ![Status:
+experimental](https://img.shields.io/badge/status-experimental-orange)
+================
 
 Sample complete groups (“blocks”) from a grouped data frame. This
 package implements a simple *block bootstrap* style sampler: instead of
 sampling individual rows, you sample entire groups preserving the
 intra-group structure.
 
-> Assumption: The package name in `DESCRIPTION` is `blockstrap`
-> (repository folder is `flockstrapr`). This README uses the
-> `blockstrap` name; adjust if the package is renamed.
-
 ## Installation
 
 ``` r
 # install.packages("devtools")
-remotes::install_github("MikeLydeamore/flockstrapr")
+remotes::install_github("numbats/blockstrap")
 ```
 
 ## Motivation
@@ -40,8 +36,6 @@ Key arguments:
 - `weight_by`: optional expression (unquoted) evaluated per-group to
   weight sampling probabilities.
 - `...`: passed to base [`sample()`](https://rdrr.io/r/base/sample.html)
-  allowing e.g. [`set.seed()`](https://rdrr.io/r/base/Random.html)
-  beforehand or other sampling tweaks.
 
 ## Basic example
 
@@ -155,3 +149,8 @@ freqs
 - [`slice_block()`](http://www.michaellydeamore.com/blockstrap/reference/slice_block.md)
   : Sample complete groups from a data frame
 
+# Articles
+
+### All vignettes
+
+- [egworkflow](http://www.michaellydeamore.com/blockstrap/articles/egworkflow.md):

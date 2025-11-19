@@ -32,6 +32,12 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
+<li><a class="dropdown-item" href="articles/egworkflow.html">egworkflow</a></li>
+  </ul>
+</li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
@@ -44,24 +50,15 @@
   </div>
 </nav><div class="container template-home">
 <div class="row">
-  <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="blockstrap">blockstrap<a class="anchor" aria-label="anchor" href="#blockstrap"></a>
-</h1></div>
+  <main id="main" class="col-md-9"><p>blockstrap <img src="https://img.shields.io/badge/status-experimental-orange" alt="Status: experimental"> ================</p>
 <!-- README.Rmd is generated from this file. Run devtools::build_readme() to knit. -->
-</div>
-<div class="section level1">
-<h1 id="blockstrap-">blockstrap <img src="https://img.shields.io/badge/status-experimental-orange" alt="Status: experimental"><a class="anchor" aria-label="anchor" href="#blockstrap-"></a>
-</h1>
 <p>Sample complete groups (“blocks”) from a grouped data frame. This package implements a simple <em>block bootstrap</em> style sampler: instead of sampling individual rows, you sample entire groups preserving the intra-group structure.</p>
-<blockquote>
-<p>Assumption: The package name in <code>DESCRIPTION</code> is <code>blockstrap</code> (repository folder is <code>flockstrapr</code>). This README uses the <code>blockstrap</code> name; adjust if the package is renamed.</p>
-</blockquote>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
-<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"MikeLydeamore/flockstrapr"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"numbats/blockstrap"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="motivation">Motivation<a class="anchor" aria-label="anchor" href="#motivation"></a>
@@ -81,7 +78,8 @@
 <li>
 <code>weight_by</code>: optional expression (unquoted) evaluated per-group to weight sampling probabilities.</li>
 <li>
-<code>...</code>: passed to base <code><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample()</a></code> allowing e.g. <code><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed()</a></code> beforehand or other sampling tweaks.</li>
+<code>...</code>: passed to base <code><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample()</a></code>
+</li>
 </ul>
 </div>
 <div class="section level2">
@@ -169,7 +167,6 @@
 <span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="do">## 4 VC      1     224</span></span>
 <span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="do">## 5 OJ      0.5   205</span></span>
 <span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="do">## 6 VC      0.5   119</span></span></code></pre></div>
-</div>
 </div>
 
   </main><aside class="col-md-3"><div class="license">
