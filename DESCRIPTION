@@ -6,7 +6,7 @@ Authors@R: c(
         person("Cash", "Looi", , "cash.looi@monash.edu", role = c("aut")),
         person("Kenyon", "Ng", , "kenyon.ng@gmail.com", role = c("aut"))
         )
-Description: Sample dataframes by group, in the form of a 'block bootstrap'. Entire groups are returned allowing for a single 'observation' to span multiple rows of the dataframe..
+Description: Sample dataframes by group, in the form of a 'block bootstrap'. Entire groups are returned allowing for a single 'observation' to span multiple rows of the dataframe.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
