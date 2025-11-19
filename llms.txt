@@ -1,0 +1,11 @@
+Sample dataframes by group, in the form of a 'block bootstrap'. Entire
+groups are returned allowing for a single 'observation' to span multiple
+rows of the dataframe..
+
+# Package index
+
+## All functions
+
+- [`slice_block()`](http://www.michaellydeamore.com/blockstrap/reference/slice_block.md)
+  : Sample complete groups from a data frame
+
