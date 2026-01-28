@@ -27,17 +27,18 @@ In this document, we demonstrate how to:
 
 ### Generate an example dataset
 
-For illustration, we use the create_fake_subjectDB() function from the
-HospitalNetwork package to generate a fake subject database containing
-admission/discharge records. Note that this dataset includes $100$
-subjects and each subject can have more than one record.
+For illustration, we use the
+[`create_fake_subjectDB()`](https://pascalcrepey.github.io/HospitalNetwork/reference/create_fake_subjectDB.html)
+function from the `HospitalNetwork` package to generate a fake subject
+database containing admission/discharge records. Note that this dataset
+includes $100$ subjects and each subject can have more than one record.
 
 ``` r
 library(HospitalNetwork)
 set.seed(1)
-df <- create_fake_subjectDB()
+subject_db <- create_fake_subjectDB()
 
-head(df)
+head(subject_db)
 #>       sID    fID      Adate      Ddate
 #>    <char> <char>     <POSc>     <POSc>
 #> 1:   s001    f07 2019-01-23 2019-02-02
@@ -48,7 +49,7 @@ head(df)
 #> 6:   s003    f09 2019-02-08 2019-02-15
 ```
 
-Here, df contains four columns:
+Here, `subject_db` contains four columns:
 
 - `sID`: Subject ID
 - `fID`: Facility ID
@@ -65,7 +66,7 @@ close together, that is, a new block begins when:
   the current admission (`Adate`) exceeds 40 days
 
 ``` r
-df2 <- df |>  
+grouped_subjects <- subject_db |>  
   group_by(sID) |>
   mutate(Adate = as.Date(Adate),
          Ddate = as.Date(Ddate)) |>
@@ -75,7 +76,7 @@ df2 <- df |>
          idx_within_sid = cumsum(is_start),
          idx_block = as.factor(paste0(sID, "_",   idx_within_sid)))
 
-head(df2)
+head(grouped_subjects)
 #> # A tibble: 6 × 8
 #> # Groups:   sID [3]
 #>   sID   fID   Adate      Ddate      diff_time is_start idx_within_sid idx_block
@@ -93,7 +94,7 @@ belongs to. Note that rows that share the identical entries in
 `idx_block` belong to the same block.
 
 ``` r
-nrow(distinct(df2,idx_block))
+nrow(distinct(grouped_subjects,idx_block))
 #> [1] 125
 ```
 
@@ -101,15 +102,17 @@ There are $125$ unique blocks in the dataset.
 
 ### Block bootstrap
 
-With the block IDs defined, we use the slice_block() function to perform
-block bootstrap. Here, we sample 10 blocks with replacement:
+With the block IDs defined, we use the
+[`slice_block()`](http://www.michaellydeamore.com/blockstrap/reference/slice_block.md)
+function to perform block bootstrap. Here, we sample 10 blocks with
+replacement:
 
 ``` r
-sample1 <- df2 |>
+blockstrapped_db <- grouped_subjects |>
   group_by(idx_block) |>
   slice_block(n = 10, replace=TRUE)
 
-head(sample1)
+head(blockstrapped_db)
 #> # A tibble: 6 × 8
 #> # Groups:   idx_block [3]
 #>   sID   fID   Adate      Ddate      diff_time is_start idx_within_sid idx_block
@@ -122,19 +125,20 @@ head(sample1)
 #> 6 s055  f10   2019-01-16 2019-01-21 NA days   TRUE                  1 s055_1
 ```
 
-`sample1` is the resulting dataset sampled using block bootstrap and can
-be used for further statistical analysis. The example above demonstrates
-sampling with equal weights, but the slice_block() function also allows
-for weighted sampling. For instance, we use the block size to give
-larger blocks a higher probability of being selected to generate
-`sample2`.
+`blockstrapped_db` is the resulting dataset sampled using block
+bootstrap and can be used for further statistical analysis. The example
+above demonstrates sampling with equal weights, but the
+[`slice_block()`](http://www.michaellydeamore.com/blockstrap/reference/slice_block.md)
+function also allows for weighted sampling. For instance, we use the
+block size to give larger blocks a higher probability of being selected
+to generate `blockstrapped_db`.
 
 ``` r
-sample2 <- df2 |>
+blockstrapped_db <- grouped_subjects |>
   group_by(idx_block) |>
   slice_block(n = 10, replace=TRUE, weight_by = n())
 
-sample2
+blockstrapped_db
 #> # A tibble: 21 × 8
 #> # Groups:   idx_block [9]
 #>    sID   fID   Adate      Ddate      diff_time is_start idx_within_sid idx_block

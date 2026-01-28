@@ -7,8 +7,16 @@ intra-group structure.
 
 ## Installation
 
+You can install the release version from CRAN:
+
 ``` r
-# install.packages("devtools")
+install.packages("blockstrap")
+```
+
+or the development version
+
+``` r
+# install.packages("remotes")
 remotes::install_github("numbats/blockstrap")
 ```
 

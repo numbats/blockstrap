@@ -36,11 +36,13 @@
 <li><a class="dropdown-item" href="../articles/egworkflow.html">Example Workflow</a></li>
   </ul>
 </li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
 </form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/numbats/blockstrap/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
 
@@ -57,7 +59,7 @@
       <h1>Example Workflow</h1>
             
       
-
+      <small class="dont-index">Source: <a href="https://github.com/numbats/blockstrap/blob/main/vignettes/egworkflow.Rmd" class="external-link"><code>vignettes/egworkflow.Rmd</code></a></small>
       <div class="d-none name"><code>egworkflow.Rmd</code></div>
     </div>
 
@@ -65,7 +67,7 @@
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://www.michaellydeamore.com/blockstrap/">blockstrap</a></span><span class="op">)</span></span></code></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://numbats.github.io/blockstrap/" class="external-link">blockstrap</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="introduction-to-blockstrap">Introduction to Blockstrap<a class="anchor" aria-label="anchor" href="#introduction-to-blockstrap"></a>
 </h2>
@@ -88,17 +90,18 @@ context</li>
 <div class="section level3">
 <h3 id="generate-an-example-dataset">Generate an example dataset<a class="anchor" aria-label="anchor" href="#generate-an-example-dataset"></a>
 </h3>
-<p>For illustration, we use the create_fake_subjectDB() function from
-the HospitalNetwork package to generate a fake subject database
-containing admission/discharge records. Note that this dataset includes
+<p>For illustration, we use the <code><a href="https://pascalcrepey.github.io/HospitalNetwork/reference/create_fake_subjectDB.html" class="external-link">create_fake_subjectDB()</a></code>
+function from the <code>HospitalNetwork</code> package to generate a
+fake subject database containing admission/discharge records. Note that
+this dataset includes
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>100</mn><annotation encoding="application/x-tex">100</annotation></semantics></math>
 subjects and each subject can have more than one record.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://pascalcrepey.github.io/HospitalNetwork/" class="external-link">HospitalNetwork</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
-<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://pascalcrepey.github.io/HospitalNetwork/reference/create_fake_subjectDB.html" class="external-link">create_fake_subjectDB</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">subject_db</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://pascalcrepey.github.io/HospitalNetwork/reference/create_fake_subjectDB.html" class="external-link">create_fake_subjectDB</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">subject_db</span><span class="op">)</span></span>
 <span><span class="co">#&gt;       sID    fID      Adate      Ddate</span></span>
 <span><span class="co">#&gt;    &lt;char&gt; &lt;char&gt;     &lt;POSc&gt;     &lt;POSc&gt;</span></span>
 <span><span class="co">#&gt; 1:   s001    f07 2019-01-23 2019-02-02</span></span>
@@ -107,7 +110,7 @@ subjects and each subject can have more than one record.</p>
 <span><span class="co">#&gt; 4:   s002    f10 2019-03-25 2019-03-27</span></span>
 <span><span class="co">#&gt; 5:   s002    f06 2019-04-23 2019-04-27</span></span>
 <span><span class="co">#&gt; 6:   s003    f09 2019-02-08 2019-02-15</span></span></code></pre></div>
-<p>Here, df contains four columns:</p>
+<p>Here, <code>subject_db</code> contains four columns:</p>
 <ul>
 <li>
 <code>sID</code>: Subject ID</li>
@@ -131,7 +134,7 @@ occur close together, that is, a new block begins when:</p>
 exceeds 40 days</li>
 </ul>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">df2</span> <span class="op">&lt;-</span> <span class="va">df</span> <span class="op">|&gt;</span>  </span>
+<code class="sourceCode R"><span><span class="va">grouped_subjects</span> <span class="op">&lt;-</span> <span class="va">subject_db</span> <span class="op">|&gt;</span>  </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">sID</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Adate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="va">Adate</span><span class="op">)</span>,</span>
 <span>         Ddate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="va">Ddate</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -141,7 +144,7 @@ exceeds 40 days</li>
 <span>         idx_within_sid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cumsum</a></span><span class="op">(</span><span class="va">is_start</span><span class="op">)</span>,</span>
 <span>         idx_block <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">sID</span>, <span class="st">"_"</span>,   <span class="va">idx_within_sid</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">df2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">grouped_subjects</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 8</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   sID [3]</span></span></span>
 <span><span class="co">#&gt;   sID   fID   Adate      Ddate      diff_time is_start idx_within_sid idx_block</span></span>
@@ -156,7 +159,7 @@ exceeds 40 days</li>
 block each row belongs to. Note that rows that share the identical
 entries in <code>idx_block</code> belong to the same block.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html" class="external-link">distinct</a></span><span class="op">(</span><span class="va">df2</span>,<span class="va">idx_block</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html" class="external-link">distinct</a></span><span class="op">(</span><span class="va">grouped_subjects</span>,<span class="va">idx_block</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 125</span></span></code></pre></div>
 <p>There are
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>125</mn><annotation encoding="application/x-tex">125</annotation></semantics></math>
@@ -165,14 +168,15 @@ unique blocks in the dataset.</p>
 <div class="section level3">
 <h3 id="block-bootstrap">Block bootstrap<a class="anchor" aria-label="anchor" href="#block-bootstrap"></a>
 </h3>
-<p>With the block IDs defined, we use the slice_block() function to
-perform block bootstrap. Here, we sample 10 blocks with replacement:</p>
+<p>With the block IDs defined, we use the <code><a href="../reference/slice_block.html">slice_block()</a></code>
+function to perform block bootstrap. Here, we sample 10 blocks with
+replacement:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sample1</span> <span class="op">&lt;-</span> <span class="va">df2</span> <span class="op">|&gt;</span></span>
+<code class="sourceCode R"><span><span class="va">blockstrapped_db</span> <span class="op">&lt;-</span> <span class="va">grouped_subjects</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">idx_block</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/slice_block.html">slice_block</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">10</span>, replace<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">sample1</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">blockstrapped_db</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 8</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   idx_block [3]</span></span></span>
 <span><span class="co">#&gt;   sID   fID   Adate      Ddate      diff_time is_start idx_within_sid idx_block</span></span>
@@ -183,18 +187,19 @@ perform block bootstrap. Here, we sample 10 blocks with replacement:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> s039  f02   2019-03-14 2019-03-18 31 days   FALSE                 1 s039_1   </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> s039  f10   2019-04-10 2019-04-15 23 days   FALSE                 1 s039_1   </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> s055  f10   2019-01-16 2019-01-21 NA days   TRUE                  1 s055_1</span></span></code></pre></div>
-<p><code>sample1</code> is the resulting dataset sampled using block
-bootstrap and can be used for further statistical analysis. The example
-above demonstrates sampling with equal weights, but the slice_block()
-function also allows for weighted sampling. For instance, we use the
-block size to give larger blocks a higher probability of being selected
-to generate <code>sample2</code>.</p>
+<p><code>blockstrapped_db</code> is the resulting dataset sampled using
+block bootstrap and can be used for further statistical analysis. The
+example above demonstrates sampling with equal weights, but the
+<code><a href="../reference/slice_block.html">slice_block()</a></code> function also allows for weighted sampling.
+For instance, we use the block size to give larger blocks a higher
+probability of being selected to generate
+<code>blockstrapped_db</code>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sample2</span> <span class="op">&lt;-</span> <span class="va">df2</span> <span class="op">|&gt;</span></span>
+<code class="sourceCode R"><span><span class="va">blockstrapped_db</span> <span class="op">&lt;-</span> <span class="va">grouped_subjects</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">idx_block</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/slice_block.html">slice_block</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">10</span>, replace<span class="op">=</span><span class="cn">TRUE</span>, weight_by <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">sample2</span></span>
+<span><span class="va">blockstrapped_db</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 21 × 8</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   idx_block [9]</span></span></span>
 <span><span class="co">#&gt;    sID   fID   Adate      Ddate      diff_time is_start idx_within_sid idx_block</span></span>
