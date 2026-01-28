@@ -1,6 +1,6 @@
 Package: blockstrap
 Title: Sample Dataframes by a Group
-Version: 0.0.0.9000
+Version: 1.0.0
 Authors@R: c(
         person("Michael", "Lydeamore", , "michael.lydeamore@monash.edu", role = c("aut", "cre", "cph"), comment = c(ORCID = "0000-0002-3980-268X")),
         person("Cash", "Looi", , "cash.looi@monash.edu", role = c("aut"), comment = c("ORCID" = "0009-0002-7219-2753")),
