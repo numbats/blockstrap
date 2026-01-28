@@ -1,8 +1,8 @@
 Package: blockstrap
-Title: Sample dataframes by a group
+Title: Sample Dataframes by a Group
 Version: 0.0.0.9000
 Authors@R: c(
-        person("Michael", "Lydeamore", , "michael.lydeamore@monash.edu", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-3980-268X")),
+        person("Michael", "Lydeamore", , "michael.lydeamore@monash.edu", role = c("aut", "cre", "cph"), comment = c(ORCID = "0000-0002-3980-268X")),
         person("Cash", "Looi", , "cash.looi@monash.edu", role = c("aut"), comment = c("ORCID" = "0009-0002-7219-2753")),
         person("Kenyon", "Ng", , "kenyon.ng@gmail.com", role = c("aut"), comment = c("ORCID" = "0000-0002-6315-9831")),
         person("Mitchell", "O'Hara-Wild", , "mail@mitchelloharawild.com", role=c("aut"), comment=c(ORCID = "0000-0001-6729-7695"))
@@ -24,4 +24,5 @@ Imports:
     rlang,
     vctrs
 VignetteBuilder: knitr
-URL: http://www.michaellydeamore.com/blockstrap/
+URL: https://numbats.github.io/blockstrap/, https://github.com/numbats/blockstrap
+BugReports: https://github.com/numbats/blockstrap/issues
