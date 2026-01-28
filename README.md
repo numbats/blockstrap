@@ -23,11 +23,6 @@ or the development version
 remotes::install_github("numbats/blockstrap")
 ```
 
-``` r
-# install.packages("devtools")
-remotes::install_github("numbats/blockstrap")
-```
-
 ## Motivation
 
 When observations belonging to the same experimental unit are spread
