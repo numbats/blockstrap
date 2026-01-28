@@ -1,5 +1,5 @@
 # Changelog
 
-## blockstrap (development version)
+## blockstrap 1.0.0
 
 - Initial CRAN submission.

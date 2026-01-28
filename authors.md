@@ -18,13 +18,13 @@ Source:
 [`DESCRIPTION`](https://github.com/numbats/blockstrap/blob/main/DESCRIPTION)
 
 Lydeamore M, Looi C, Ng K, O'Hara-Wild M (2026). *blockstrap: Sample
-Dataframes by a Group*. R package version 0.0.0.9000,
+Dataframes by a Group*. R package version 1.0.0,
 <https://numbats.github.io/blockstrap/>.
 
     @Manual{,
       title = {blockstrap: Sample Dataframes by a Group},
       author = {Michael Lydeamore and Cash Looi and Kenyon Ng and Mitchell O'Hara-Wild},
       year = {2026},
-      note = {R package version 0.0.0.9000},
+      note = {R package version 1.0.0},
       url = {https://numbats.github.io/blockstrap/},
     }
